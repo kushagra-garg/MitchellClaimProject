@@ -1,0 +1,318 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MitchellClaimDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'C:\USERS\HP-COCONUT\DOCUMENTS\VISUAL STUDIO 2015\PROJECTS\MITCHELLCLAIM\MITCHELLCLAIMDATAMODEL\MITCHELLCLAIMDB.MDF.dbo.LossInfoType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="LossInfoType">
+          <Key>
+            <PropertyRef Name="ClaimNumber" />
+          </Key>
+          <Property Name="ClaimNumber" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LossCause" Type="varchar" MaxLength="30" />
+          <Property Name="ReportedDate" Type="datetime" />
+          <Property Name="LossDescription" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="MitchellClaimType">
+          <Key>
+            <PropertyRef Name="ClaimNumber" />
+          </Key>
+          <Property Name="ClaimNumber" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ClaimantFirstName" Type="varchar" MaxLength="50" />
+          <Property Name="ClaimantLastName" Type="varchar" MaxLength="50" />
+          <Property Name="Status" Type="varchar" MaxLength="6" />
+          <Property Name="LossDate" Type="datetime" />
+          <Property Name="AssignedAdjusterID" Type="bigint" />
+        </EntityType>
+        <EntityType Name="VehicleInfoType">
+          <Key>
+            <PropertyRef Name="ClaimNumber" />
+            <PropertyRef Name="ModelYear" />
+          </Key>
+          <Property Name="ClaimNumber" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ModelYear" Type="int" Nullable="false" />
+          <Property Name="MakeDescription" Type="varchar(max)" />
+          <Property Name="ModelDescription" Type="varchar(max)" />
+          <Property Name="EngineDescription" Type="varchar(max)" />
+          <Property Name="ExteriorColor" Type="varchar" MaxLength="20" />
+          <Property Name="Vin" Type="varchar" MaxLength="20" />
+          <Property Name="LicPlate" Type="varchar" MaxLength="20" />
+          <Property Name="LicPlateState" Type="varchar" MaxLength="20" />
+          <Property Name="LicPlateExpDate" Type="date" />
+          <Property Name="DamageDescription" Type="varchar(max)" />
+          <Property Name="Mileage" Type="int" />
+        </EntityType>
+        <Association Name="FK__LossInfoT__Claim__70DDC3D8">
+          <End Role="MitchellClaimType" Type="Self.MitchellClaimType" Multiplicity="1" />
+          <End Role="LossInfoType" Type="Self.LossInfoType" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="MitchellClaimType">
+              <PropertyRef Name="ClaimNumber" />
+            </Principal>
+            <Dependent Role="LossInfoType">
+              <PropertyRef Name="ClaimNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="CreateMitchellClaim" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="claimNumber" Type="varchar" Mode="In" />
+          <Parameter Name="firstName" Type="varchar" Mode="In" />
+          <Parameter Name="lastName" Type="varchar" Mode="In" />
+          <Parameter Name="status" Type="varchar" Mode="In" />
+          <Parameter Name="lossDate" Type="datetime" Mode="In" />
+          <Parameter Name="adjusterId" Type="bigint" Mode="In" />
+          <Parameter Name="lossDetails" Type="bit" Mode="In" />
+          <Parameter Name="lossCause" Type="varchar" Mode="In" />
+          <Parameter Name="reportedDate" Type="datetime" Mode="In" />
+          <Parameter Name="description" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="DeleteMitchellClaim" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="claimNumber" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="GetMitchellClaim" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="claimNumber" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="GetMitchellClaimList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="lossFromDate" Type="datetime" Mode="In" />
+          <Parameter Name="lossToDate" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="GetVehicleClaim" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="claimNumber" Type="varchar" Mode="In" />
+          <Parameter Name="modelYear" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="MitchellClaimDBModelStoreContainer">
+          <EntitySet Name="MitchellClaimType" EntityType="Self.MitchellClaimType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VehicleInfoType" EntityType="Self.VehicleInfoType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LossInfoType" EntityType="Self.LossInfoType" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [LossInfoType].[ClaimNumber] AS [ClaimNumber], 
+    [LossInfoType].[LossCause] AS [LossCause], 
+    [LossInfoType].[ReportedDate] AS [ReportedDate], 
+    [LossInfoType].[LossDescription] AS [LossDescription]
+    FROM [dbo].[LossInfoType] AS [LossInfoType]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__LossInfoT__Claim__70DDC3D8" Association="Self.FK__LossInfoT__Claim__70DDC3D8">
+            <End Role="MitchellClaimType" EntitySet="MitchellClaimType" />
+            <End Role="LossInfoType" EntitySet="LossInfoType" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MitchellClaimDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="MitchellClaimType">
+          <Key>
+            <PropertyRef Name="ClaimNumber" />
+          </Key>
+          <Property Name="ClaimNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ClaimantFirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ClaimantLastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="LossDate" Type="DateTime" Precision="3" />
+          <Property Name="AssignedAdjusterID" Type="Int64" />
+          <NavigationProperty Name="LossInfoType" Relationship="Self.FK__LossInfoT__Claim__70DDC3D8" FromRole="MitchellClaimType" ToRole="LossInfoType" />
+        </EntityType>
+        <EntityType Name="VehicleInfoType">
+          <Key>
+            <PropertyRef Name="ClaimNumber" />
+            <PropertyRef Name="ModelYear" />
+          </Key>
+          <Property Name="ClaimNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ModelYear" Type="Int32" Nullable="false" />
+          <Property Name="MakeDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ModelDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="EngineDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ExteriorColor" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Vin" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="LicPlate" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="LicPlateState" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="LicPlateExpDate" Type="DateTime" Precision="0" />
+          <Property Name="DamageDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Mileage" Type="Int32" />
+        </EntityType>
+        <EntityType Name="LossInfoType">
+          <Key>
+            <PropertyRef Name="ClaimNumber" />
+          </Key>
+          <Property Name="ClaimNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LossCause" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="ReportedDate" Type="DateTime" Precision="3" />
+          <Property Name="LossDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="MitchellClaimType" Relationship="Self.FK__LossInfoT__Claim__70DDC3D8" FromRole="LossInfoType" ToRole="MitchellClaimType" />
+        </EntityType>
+        <Association Name="FK__LossInfoT__Claim__70DDC3D8">
+          <End Role="MitchellClaimType" Type="Self.MitchellClaimType" Multiplicity="1" />
+          <End Role="LossInfoType" Type="Self.LossInfoType" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="MitchellClaimType">
+              <PropertyRef Name="ClaimNumber" />
+            </Principal>
+            <Dependent Role="LossInfoType">
+              <PropertyRef Name="ClaimNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MitchellClaimDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="MitchellClaimTypes" EntityType="Self.MitchellClaimType" />
+          <EntitySet Name="VehicleInfoTypes" EntityType="Self.VehicleInfoType" />
+          <EntitySet Name="LossInfoTypes" EntityType="Self.LossInfoType" />
+          <AssociationSet Name="FK__LossInfoT__Claim__70DDC3D8" Association="Self.FK__LossInfoT__Claim__70DDC3D8">
+            <End Role="MitchellClaimType" EntitySet="MitchellClaimTypes" />
+            <End Role="LossInfoType" EntitySet="LossInfoTypes" />
+          </AssociationSet>
+          <FunctionImport Name="CreateMitchellClaim">
+            <Parameter Name="claimNumber" Mode="In" Type="String" />
+            <Parameter Name="firstName" Mode="In" Type="String" />
+            <Parameter Name="lastName" Mode="In" Type="String" />
+            <Parameter Name="status" Mode="In" Type="String" />
+            <Parameter Name="lossDate" Mode="In" Type="DateTime" />
+            <Parameter Name="adjusterId" Mode="In" Type="Int64" />
+            <Parameter Name="lossDetails" Mode="In" Type="Boolean" />
+            <Parameter Name="lossCause" Mode="In" Type="String" />
+            <Parameter Name="reportedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="description" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteMitchellClaim">
+            <Parameter Name="claimNumber" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetMitchellClaim" ReturnType="Collection(MitchellClaimDBModel.GetMitchellClaim_Result)">
+            <Parameter Name="claimNumber" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetMitchellClaimList" ReturnType="Collection(String)">
+            <Parameter Name="lossFromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="lossToDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="GetVehicleClaim" ReturnType="Collection(MitchellClaimDBModel.GetVehicleClaim_Result)">
+            <Parameter Name="claimNumber" Mode="In" Type="String" />
+            <Parameter Name="modelYear" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="GetMitchellClaim_Result">
+          <Property Type="String" Name="ClaimNumber" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ClaimantFirstName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ClaimantLastName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Status" Nullable="true" MaxLength="6" />
+          <Property Type="DateTime" Name="LossDate" Nullable="true" Precision="23" />
+          <Property Type="Int64" Name="AssignedAdjusterID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetVehicleClaim_Result">
+          <Property Type="String" Name="ClaimNumber" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="ModelYear" Nullable="false" />
+          <Property Type="String" Name="MakeDescription" Nullable="true" />
+          <Property Type="String" Name="ModelDescription" Nullable="true" />
+          <Property Type="String" Name="EngineDescription" Nullable="true" />
+          <Property Type="String" Name="ExteriorColor" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Vin" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="LicPlate" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="LicPlateState" Nullable="true" MaxLength="20" />
+          <Property Type="DateTime" Name="LicPlateExpDate" Nullable="true" />
+          <Property Type="String" Name="DamageDescription" Nullable="true" />
+          <Property Type="Int32" Name="Mileage" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MitchellClaimDBModelStoreContainer" CdmEntityContainer="MitchellClaimDBEntities">
+          <EntitySetMapping Name="MitchellClaimTypes">
+            <EntityTypeMapping TypeName="MitchellClaimDBModel.MitchellClaimType">
+              <MappingFragment StoreEntitySet="MitchellClaimType">
+                <ScalarProperty Name="ClaimNumber" ColumnName="ClaimNumber" />
+                <ScalarProperty Name="ClaimantFirstName" ColumnName="ClaimantFirstName" />
+                <ScalarProperty Name="ClaimantLastName" ColumnName="ClaimantLastName" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="LossDate" ColumnName="LossDate" />
+                <ScalarProperty Name="AssignedAdjusterID" ColumnName="AssignedAdjusterID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VehicleInfoTypes">
+            <EntityTypeMapping TypeName="MitchellClaimDBModel.VehicleInfoType">
+              <MappingFragment StoreEntitySet="VehicleInfoType">
+                <ScalarProperty Name="ClaimNumber" ColumnName="ClaimNumber" />
+                <ScalarProperty Name="ModelYear" ColumnName="ModelYear" />
+                <ScalarProperty Name="MakeDescription" ColumnName="MakeDescription" />
+                <ScalarProperty Name="ModelDescription" ColumnName="ModelDescription" />
+                <ScalarProperty Name="EngineDescription" ColumnName="EngineDescription" />
+                <ScalarProperty Name="ExteriorColor" ColumnName="ExteriorColor" />
+                <ScalarProperty Name="Vin" ColumnName="Vin" />
+                <ScalarProperty Name="LicPlate" ColumnName="LicPlate" />
+                <ScalarProperty Name="LicPlateState" ColumnName="LicPlateState" />
+                <ScalarProperty Name="LicPlateExpDate" ColumnName="LicPlateExpDate" />
+                <ScalarProperty Name="DamageDescription" ColumnName="DamageDescription" />
+                <ScalarProperty Name="Mileage" ColumnName="Mileage" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LossInfoTypes">
+            <EntityTypeMapping TypeName="MitchellClaimDBModel.LossInfoType">
+              <MappingFragment StoreEntitySet="LossInfoType">
+                <ScalarProperty Name="ClaimNumber" ColumnName="ClaimNumber" />
+                <ScalarProperty Name="LossCause" ColumnName="LossCause" />
+                <ScalarProperty Name="ReportedDate" ColumnName="ReportedDate" />
+                <ScalarProperty Name="LossDescription" ColumnName="LossDescription" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="CreateMitchellClaim" FunctionName="MitchellClaimDBModel.Store.CreateMitchellClaim" />
+          <FunctionImportMapping FunctionImportName="DeleteMitchellClaim" FunctionName="MitchellClaimDBModel.Store.DeleteMitchellClaim" />
+          <FunctionImportMapping FunctionImportName="GetMitchellClaim" FunctionName="MitchellClaimDBModel.Store.GetMitchellClaim">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MitchellClaimDBModel.GetMitchellClaim_Result">
+                <ScalarProperty Name="ClaimNumber" ColumnName="ClaimNumber" />
+                <ScalarProperty Name="ClaimantFirstName" ColumnName="ClaimantFirstName" />
+                <ScalarProperty Name="ClaimantLastName" ColumnName="ClaimantLastName" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="LossDate" ColumnName="LossDate" />
+                <ScalarProperty Name="AssignedAdjusterID" ColumnName="AssignedAdjusterID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetMitchellClaimList" FunctionName="MitchellClaimDBModel.Store.GetMitchellClaimList" />
+          <FunctionImportMapping FunctionImportName="GetVehicleClaim" FunctionName="MitchellClaimDBModel.Store.GetVehicleClaim">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MitchellClaimDBModel.GetVehicleClaim_Result">
+                <ScalarProperty Name="ClaimNumber" ColumnName="ClaimNumber" />
+                <ScalarProperty Name="ModelYear" ColumnName="ModelYear" />
+                <ScalarProperty Name="MakeDescription" ColumnName="MakeDescription" />
+                <ScalarProperty Name="ModelDescription" ColumnName="ModelDescription" />
+                <ScalarProperty Name="EngineDescription" ColumnName="EngineDescription" />
+                <ScalarProperty Name="ExteriorColor" ColumnName="ExteriorColor" />
+                <ScalarProperty Name="Vin" ColumnName="Vin" />
+                <ScalarProperty Name="LicPlate" ColumnName="LicPlate" />
+                <ScalarProperty Name="LicPlateState" ColumnName="LicPlateState" />
+                <ScalarProperty Name="LicPlateExpDate" ColumnName="LicPlateExpDate" />
+                <ScalarProperty Name="DamageDescription" ColumnName="DamageDescription" />
+                <ScalarProperty Name="Mileage" ColumnName="Mileage" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

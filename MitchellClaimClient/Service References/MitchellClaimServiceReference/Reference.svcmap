@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="f61d02e4-3d6c-45c7-8a6f-f2b27d0d8458" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:57108/MitchellClaimService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="MitchellClaimService2.xsd" MetadataType="Schema" ID="ee29b9e0-55bb-4fab-8329-17c3edd04770" SourceId="1" SourceUrl="http://localhost:57108/MitchellClaimService.svc?xsd=xsd0" />
+    <MetadataFile FileName="MitchellClaimService.xsd" MetadataType="Schema" ID="31d2839e-028b-4121-85f9-aa1cd99eb127" SourceId="1" SourceUrl="http://localhost:57108/MitchellClaimService.svc?xsd=xsd2" />
+    <MetadataFile FileName="MitchellClaimService3.xsd" MetadataType="Schema" ID="8bbe7abf-76cf-4ddf-b0cb-525557ebbd8a" SourceId="1" SourceUrl="http://localhost:57108/MitchellClaimService.svc?xsd=xsd3" />
+    <MetadataFile FileName="MitchellClaimService1.xsd" MetadataType="Schema" ID="70189752-498b-43d1-bca8-61c9a9ebe24c" SourceId="1" SourceUrl="http://localhost:57108/MitchellClaimService.svc?xsd=xsd1" />
+    <MetadataFile FileName="MitchellClaimService.wsdl" MetadataType="Wsdl" ID="5978a7eb-afa4-4e5c-ab48-c7f87e4172ec" SourceId="1" SourceUrl="http://localhost:57108/MitchellClaimService.svc?wsdl" />
+    <MetadataFile FileName="MitchellClaimService.disco" MetadataType="Disco" ID="aa7b0263-a4aa-4746-9f58-e1bfbc44f21b" SourceId="1" SourceUrl="http://localhost:57108/MitchellClaimService.svc?disco" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
